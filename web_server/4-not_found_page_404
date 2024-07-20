@@ -1,18 +1,125 @@
-#!/usr/bin/env bash
-#Configures Nginx server to have a custom 404 page that contains the string
+<!DOCTYPE html>
+<html lang="en">
 
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-echo "This is Diane Pretty Holberton School :)" | sudo tee /var/www/html/index.html > /dev/null
+<head>
+    <title>404 - Page Not Found</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+        body {
+            background-color: #1f1f1d;
+            font-family: "DM Sans", sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ddd;
+            position: relative;
+            overflow: hidden;
+            }
+        
+        main {
+            padding: 2rem;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-family: "DM Sans", sans-serif;
+            text-transform: uppercase;
+            color: #fbb01e;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+        
+        p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .home-link {
+            display: inline-block;
+            font-family: "DM Sans", sans-serif;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #fff;
+            background-color: #fbb01e;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .home-link:hover {
+            background-color: #ffb85a;
+        }
+        
+        .error-list {
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .background-text {
+            position: absolute;
+            font-family: "DM Sans", sans-serif;
+            font-size: 5vw;
+            color: rgba(255, 255, 255, 0.03);
+            white-space: nowrap;
+            transform: rotate(-45deg);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .space-mono-regular {
+            font-family: "Space Mono", monospace;
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        .space-mono-bold {
+            font-family: "Space Mono", monospace;
+            font-weight: 700;
+            font-style: normal;
+        }
+        
+        .space-mono-regular-italic {
+            font-family: "Space Mono", monospace;
+            font-weight: 400;
+            font-style: italic;
+        }
+        
+        .space-mono-bold-italic {
+            font-family: "Space Mono", monospace;
+            font-weight: 700;
+            font-style: italic;
+        }
+    </style>
+</head>
 
-# codes to redirect a specific endpoint (eg: redirect /redirect_me to https://www.github.com/dianepretty)
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.github.com\/dianepretty permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+<body>
+    <div class="background-text">Ceci n'est pas une page</div>
+    <main>
+        <h1>404 - Page Not Found</h1>
+        <p>
+            Oops! It seems like you're lost. Let me help you find your way back home!
+        </p>
+        <p>The following problems could be the case:</p>
+        <ul class="error-list">
+            <li>The link is broken</li>
+            <li>This page never existed</li>
+            <li>This page has been removed</li>
+        </ul>
+        <a href="/" class="home-link">Go back to home</a>
+    </main>
+</body>
 
-# codes to create error page and add a redirect for error 404
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
-string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
-
-sudo service nginx restart
+</html>

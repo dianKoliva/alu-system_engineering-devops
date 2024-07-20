@@ -1,7 +1,10 @@
-#!/usr/bin/env bash
-#don't use password
-exec { 'echo':
-  path    => 'usr/bin:/bin',
-  command => 'echo "    IdentityFile ~/.ssh/school\n    PasswordAuthentication no" >> /etc/ssh/ssh_config',
-  returns => [0,1],
+# Client configuration file with Puppet
+file_line { 'Turn_off_passwd_auth':
+  path    => '/etc/ssh/ssh_config',
+  line    => 'PasswordAuthentication no',
+}
+
+file_line { 'Declare_identity_file':
+  path    => '/etc/ssh/ssh_config',
+  line    => 'IdentityFile ~/.ssh/school',
 }

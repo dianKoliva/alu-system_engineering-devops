@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-#not try to authenticate using a password
-host
-   HostName 3.95.196.213
-   IdentifyFile ~/.ssh/school
-   PasswordAuthentication no
+# Configuring ssh client so that I can connect to the server without typing a password.
+Host 54.196.216.8
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no

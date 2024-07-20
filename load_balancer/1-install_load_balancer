@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
-# Install the load balancer
+# Create a script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-# Update software packages
-sudo apt-get -y update && sudo apt-get -y upgrade
+# edit config file
+server_config=\
+"
+frontend oreste-frontend
+        bind *:80
+        mode http
+        default_backend oreste-backend
+backend oreste-backend
+        balance roundrobin
+        server 6238-web-01 54.196.216.8:80 check
+        server 6238-web-02 98.80.15.59:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-# Install haproxy
-sudo apt-get -y install haproxy
+# enable haproxy to be started by init script
 
-# Setup a proxy
-sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
-sudo sed -i "$ a\listen 5639-lb-01\n\tbind *:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 5639-web-02 3.80.103.249 check\n\tserver 5639-web-01 54.167.62.184 check" /etc/haproxy/haproxy.cfg
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Start the proxy
-sudo service haproxy start
+sudo service haproxy restart
